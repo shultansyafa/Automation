@@ -13,6 +13,7 @@ dependencies {
     testImplementation group: 'org.testng', name: 'testng', version: '7.9.0'
     testImplementation 'io.rest-assured:rest-assured:5.4.0'
     implementation group: 'org.json', name: 'json', version: '20240303'
+    testImplementation group: 'org.assertj', name: 'assertj-core', version: '3.24.0'
 }
 
 test {
