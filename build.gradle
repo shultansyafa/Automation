@@ -11,13 +11,48 @@ repositories {
 
 dependencies {
     testImplementation group: 'org.testng', name: 'testng', version: '7.9.0'
+
     testImplementation 'io.rest-assured:rest-assured:5.4.0'
+
     implementation group: 'org.json', name: 'json', version: '20240303'
     testImplementation group: 'org.assertj', name: 'assertj-core', version: '3.24.0'
+
+    implementation group: 'io.cucumber', name: 'cucumber-java', version: '7.12.0'
+    testImplementation group: 'io.cucumber', name: 'cucumber-junit', version: '7.12.0'
+
+    implementation group: 'org.seleniumhq.selenium', name: 'selenium-java', version: '4.17.0'
 }
 
 test {
     useTestNG()
 }
+
+configurations{
+    cucumberRuntime{
+        extendsFrom testImplementation
+    }
+}
+
+def tags = (findProperty('tags') == null) ? 'not @exclude' : findProperty('tags') + ' and not @exclude'
+
+tasks.register('cucumber'){
+    description("Running Cucumber Test")
+    dependsOn assemble, compileTestJava
+    doLast {
+        javaexec {
+            main = "io.cucumber.core.cli.Main"
+            classpath = configurations.cucumberRuntime + sourceSets.main.output + sourceSets.test.output
+            args = [
+                    '--plugin', 'html:reports/index.html',
+                    '--plugin', 'pretty',
+                    '--glue', 'stepDef',
+                    '--tags', "${tags}",
+                    'src/test/resources'
+            ]
+        }
+    }
+}
+
+
 
 
