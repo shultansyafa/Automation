@@ -1,5 +1,6 @@
 package runner;
 
+import org.openqa.selenium.WebDriverException;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 
@@ -9,7 +10,7 @@ public class BaseTest {
 
     protected static ChromeDriver driver;
 
-    protected void getDriver(){
+    protected void getDriver() {
         ChromeOptions options = new ChromeOptions();
 
         options.addArguments("--no-sandbox");
@@ -18,6 +19,7 @@ public class BaseTest {
         driver = new ChromeDriver(options);
         driver.manage().window().maximize();
         driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(3));
+
 
     }
 }

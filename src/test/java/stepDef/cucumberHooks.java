@@ -13,6 +13,6 @@ public class cucumberHooks extends BaseTest {
 
     @After
     public void afterTest(){
-
+        driver.close();
     }
 }
