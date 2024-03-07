@@ -23,9 +23,9 @@ dependencies {
     implementation group: 'org.seleniumhq.selenium', name: 'selenium-java', version: '4.17.0'
 }
 
-test {
-    useTestNG()
-}
+//test {
+   // useTestNG()
+//}
 
 configurations{
     cucumberRuntime{
