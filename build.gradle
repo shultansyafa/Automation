@@ -21,36 +21,31 @@ dependencies {
     testImplementation group: 'io.cucumber', name: 'cucumber-junit', version: '7.12.0'
 
     implementation group: 'org.seleniumhq.selenium', name: 'selenium-java', version: '4.17.0'
-    implementation group: 'org.seleniumhq.selenium', name: 'selenium-chrome-driver', version: '4.18.1'
 
 }
 
-//test {
-   // useTestNG()
-//}
-
-configurations{
-    cucumberRuntime{
+test {
+    useJUnitPlatform()
+    systemProperty "cucumber.filter.tags", System.getProperty("cucumber.filter.tags")
+}
+configurations {
+    cucumberRuntime {
         extendsFrom testImplementation
     }
 }
 
-def tags = (findProperty('tags') == null) ? 'not @exclude' : findProperty('tags') + ' and not @exclude'
-
-tasks.register('cucumber'){
-    description("Running Cucumber Test")
-    dependsOn assemble, compileTestJava
+tasks.register('webTest') {
+    dependsOn assemble, testClasses
     doLast {
         javaexec {
             main = "io.cucumber.core.cli.Main"
             classpath = configurations.cucumberRuntime + sourceSets.main.output + sourceSets.test.output
             args = [
-                    '--plugin', 'html:reports/index.html',
                     '--plugin', 'pretty',
+                    '--plugin', 'html:reports/cucumber-web-report.html',
                     '--glue', 'stepDef',
-                    '--tags', "${tags}",
-                    'src/test/resources'
-            ]
+                    '--tags', "@web",
+                    'src/test/resources']
         }
     }
 }
