@@ -22,19 +22,22 @@ dependencies {
 
     implementation group: 'org.seleniumhq.selenium', name: 'selenium-java', version: '4.17.0'
 
+
 }
 
 test {
     useJUnitPlatform()
     systemProperty "cucumber.filter.tags", System.getProperty("cucumber.filter.tags")
 }
-configurations {
-    cucumberRuntime {
+
+configurations{
+    cucumberRuntime{
         extendsFrom testImplementation
     }
 }
 
-tasks.register('webTest') {
+
+tasks.register('webTest'){
     dependsOn assemble, testClasses
     doLast {
         javaexec {
@@ -45,7 +48,8 @@ tasks.register('webTest') {
                     '--plugin', 'html:reports/cucumber-web-report.html',
                     '--glue', 'stepDef',
                     '--tags', "@web",
-                    'src/test/resources']
+                    'src/test/resources'
+            ]
         }
     }
 }
